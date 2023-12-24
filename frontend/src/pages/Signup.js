@@ -1,26 +1,29 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import GoogleImg from '../assets/search.png'
 import FacebookImg from '../assets/facebook.png'
 import GithubImg from '../assets/github.png'
+import AuthContext from '../contexts/AuthContext'
 
 
 
 const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false)
+  const {userSignup} = useContext(AuthContext)
 
 
   return (
     <div className='h-[80vh] flex justify-center items-center'>
       <div>
-      <form className="w-[600px]">
+      <form className="w-[600px]" onSubmit={(e)=>userSignup(e)}>
         <h2 className='text-2xl font-semibold py-3 text-center'>Signup</h2>
         <div className="mb-5">
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email<span className='text-red-500 ms-1'>*</span></label>
           <input
             type="email"
             id="email"
+            name='email'
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="email@email.com"
             required
@@ -32,6 +35,7 @@ const Signup = () => {
             <input
               type="text"
               id="first_name"
+              name='first_name'
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="first name"
               required
@@ -42,9 +46,9 @@ const Signup = () => {
             <input
               type="text"
               id="last_name"
+              name='last_name'
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="last name"
-              required
             />
           </div>
         </div>
@@ -53,6 +57,7 @@ const Signup = () => {
           <input
             type={`${showPassword?"text":"password"}`}
             id="password"
+            name='password'
             className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder='password'
             required
@@ -71,10 +76,11 @@ const Signup = () => {
           </div>
         </div>
         <div className="mb-5 relative">
-          <label htmlFor="re-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password<span className='text-red-500 ms-1'>*</span></label>
+          <label htmlFor="re_password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password<span className='text-red-500 ms-1'>*</span></label>
           <input
             type={`${showPassword?"text":"password"}`}
-            id="re-password"
+            id="re_password"
+            name='re_password'
             className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder='confirm password'
             required
@@ -96,7 +102,7 @@ const Signup = () => {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Login
+          Confirm
         </button>
         <div className='text-sm py-3 text-center'>Already have an account? <Link className='text-blue-500' to='/login'>Login</Link></div>
       </form>

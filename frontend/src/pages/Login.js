@@ -8,7 +8,6 @@ import AuthContext from '../contexts/AuthContext'
 const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false)
-
   const {userLogin, alert, setAlert} = useContext(AuthContext)
 
   return (
@@ -33,6 +32,8 @@ const Login = () => {
         </button>
       </div>}
 
+
+      {/* login form */}
       <form className="w-[600px]" onSubmit={(e)=>userLogin(e)}>
         <h2 className='text-2xl font-semibold py-3 text-center'>Login</h2>
         <div className="mb-5">
@@ -78,6 +79,7 @@ const Login = () => {
         <div className='text-sm py-3 text-center'>Don't have an account? <Link className='text-blue-500' to='/signup'>Signup</Link></div>
       </form>
 
+        {/* Social login section */}
         <div className='mt-10'>
           <div className='w-full flex justify-center items-center'>
             <div className='border-b border-gray-400 inline-block w-full'></div>
