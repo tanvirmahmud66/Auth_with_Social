@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {createContext} from 'react'
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 export default AuthContext;
@@ -7,7 +8,10 @@ export default AuthContext;
 
 export const AuthProvider = ({children}) =>{
 
-    const [Token, setToken] = useState(null)
+    let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
+    // let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
+    let [user, setUser] = useState(null)
+
     const [loginStatus, setLoginStatus] = useState({
         detail:'',
         status:null,
@@ -47,8 +51,38 @@ export const AuthProvider = ({children}) =>{
                 statusText:response.statusText,
                 alert:true
             })
+        }else{
+            setAuthTokens(data)
+            setUser(jwtDecode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+            setLoginStatus({
+                detail:data.detail,
+                status:response.status,
+                statusText:response.statusText,
+                alert:false
+            })
         }
     }
+
+    // load user --------------------------------------------------------------- load user
+    let loadUser = async()=>{
+        let response = await fetch(`http://127.0.0.1:8000/auth/users/me/`,{
+            method:"GET",
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization': `JWT ${authTokens.access}`,
+                'Accept': 'application/json',
+            }
+        })
+        let data = await response.json()
+        if (response.status===200){
+            setUser(data)
+        }
+    }
+
+    useEffect(()=>{
+        loadUser()    
+    },[authTokens])
 
     //userSignup --------------------------------------------------------------- user signup
     let userSignup = async(e)=>{
@@ -90,6 +124,13 @@ export const AuthProvider = ({children}) =>{
         }
     }
 
+    // -------------------------------------------------------------------------- user logout
+    const logout = ()=>{
+        setAuthTokens(null)
+        setUser(null)
+        localStorage.removeItem('authTokens')
+    }
+
     // ------------------------------------ context data ------------------------
     let contextData = {
         userLogin:userLogin,
@@ -97,6 +138,11 @@ export const AuthProvider = ({children}) =>{
 
         userSignup:userSignup,
         signupStatus:signupStatus,
+
+        logout:logout,
+
+        authTokens:authTokens,
+        user:user,
     }
 
     return(

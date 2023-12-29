@@ -130,6 +130,9 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # Rest framework
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticated'
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -155,11 +158,12 @@ DJOSER = {
     'SEND_ACTIVATION_EMAIL': True,
     'SEND_CONFIRMATION_EMAIL': True,
     'USER_CREATE_PASSWORD_RETYPE': True,
-    'PASSWORD_RESET_CONFIRM_URL': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
-    'ACTIVATION_URL': True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION':True,
     'SET_PASSWORD_RETYPE': True,
-    'PASSWORD_RESET_CONFIRM_URL' : '/password-reset/{uid}/{token}',
+    'SET_USERNAME_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_URL' : '/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL':'/username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL':'/activate/{uid}/{token}',
     'SERIALIZERS': {
         'user_create': 'accounts.serializers.UserCreateSerializer',

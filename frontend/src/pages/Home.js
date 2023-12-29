@@ -1,11 +1,16 @@
-import React from 'react'
-import { Button , Accordion, Carousel} from 'flowbite-react';
+import React, { useContext } from 'react'
+import Background from '../assets/Hero_background.jpg'
+import AuthContext from '../contexts/AuthContext'
 
 const Home = () => {
+  
+  const {user} = useContext(AuthContext)
+  console.log(user)
+
   return (
     <div>
-      This is home page
-    </div>
+      <img src={Background} alt='hero background'/>
+    </div>   
   )
 }
 
