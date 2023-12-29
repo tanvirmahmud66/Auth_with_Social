@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import AuthContext from '../contexts/AuthContext'
 
 const ResetPassword = () => {
+
+  const {resetPassword} = useContext(AuthContext)
+
   return (
     <div className='h-[80vh] flex justify-center items-center'>
       <div>
 
       {/* login form */}
-      <form className="w-[600px]">
+      <form className="w-[600px]" onSubmit={(e)=>resetPassword(e)}>
         <h2 className='text-2xl font-semibold py-3 text-center'>Forget Password?</h2>
 
         {/* alert */}

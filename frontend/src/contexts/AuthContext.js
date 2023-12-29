@@ -131,6 +131,43 @@ export const AuthProvider = ({children}) =>{
         localStorage.removeItem('authTokens')
     }
 
+    //--------------------------------------------------------------------------- reset password
+    let resetPassword = async(e)=>{
+        e.preventDefault()
+        let response = await fetch(`http://127.0.0.1:8000/auth/users/reset_password/`,{
+            method:"POST",
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                "email":e.target.email.value
+            })
+        })
+        
+        console.log(response.status)
+    }
+
+
+    //--------------------------------------------------------------------------- reset password confirm
+    let resetPasswordConfirm = async(e,uid, token)=>{
+        e.preventDefault()
+        let response = await fetch(`http://127.0.0.1:8000/auth/users/reset_password_confirm/`, {
+            method:"POST",
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body:JSON.stringify({
+                "uid":uid,
+                "token":token,
+                "new_password":e.target.new_password.value,
+            })
+        })
+        console.log(response.status)
+        
+    }
+
+
+
     // ------------------------------------ context data ------------------------
     let contextData = {
         userLogin:userLogin,
@@ -143,6 +180,9 @@ export const AuthProvider = ({children}) =>{
 
         authTokens:authTokens,
         user:user,
+
+        resetPassword:resetPassword,
+        resetPasswordConfirm:resetPasswordConfirm,
     }
 
     return(
