@@ -12,6 +12,11 @@ export const AuthProvider = ({children}) =>{
     // let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(null)
 
+    let [activateReqStatus, setActivateReqStatus] = useState(null)
+    let [resetReqStatus, setResetReqStatus] = useState(null)
+    let [resetPasswordStatus, setResetPasswordStatus] = useState(null)
+    let [spinner, setSpinner] = useState(false)
+
     const [loginStatus, setLoginStatus] = useState({
         detail:'',
         status:null,
@@ -30,6 +35,7 @@ export const AuthProvider = ({children}) =>{
 
     // user login -------------------------------------------------------------- user login
     let userLogin = async(e)=>{
+        setSpinner(true)
         e.preventDefault()
         let response = await fetch(`http://127.0.0.1:8000/auth/jwt/create/`,{
             method:"POST",
@@ -51,6 +57,7 @@ export const AuthProvider = ({children}) =>{
                 statusText:response.statusText,
                 alert:true
             })
+            setSpinner(false)
         }else{
             setAuthTokens(data)
             setUser(jwtDecode(data.access))
@@ -61,6 +68,7 @@ export const AuthProvider = ({children}) =>{
                 statusText:response.statusText,
                 alert:false
             })
+            setSpinner(false)
         }
     }
 
@@ -86,6 +94,7 @@ export const AuthProvider = ({children}) =>{
 
     //userSignup --------------------------------------------------------------- user signup
     let userSignup = async(e)=>{
+        setSpinner(true)
         e.preventDefault()
         let response = await fetch(`http://127.0.0.1:8000/auth/users/`,{
             method:"POST",
@@ -112,6 +121,7 @@ export const AuthProvider = ({children}) =>{
                 statusText:response.statusText,
                 alert:true,
             })
+            setSpinner(false)
         }else{
             setSignupStatus({
                 password:null,
@@ -121,11 +131,13 @@ export const AuthProvider = ({children}) =>{
                 statusText:response.statusText,
                 alert:true,
             })
+            setSpinner(false)
         }
     }
 
     // -------------------------------------------------------------------------- activate account
     let activateAccount = async(uid, token)=>{
+        setSpinner(true)
         let response = await fetch(`http://127.0.0.1:8000/auth/users/activation/`, {
             method:"POST",
             headers:{
@@ -138,6 +150,10 @@ export const AuthProvider = ({children}) =>{
         })
 
         console.log(response.status)
+        setActivateReqStatus(response.status)
+        if (response.status){
+            setSpinner(false)
+        }
     }
 
 
@@ -151,6 +167,7 @@ export const AuthProvider = ({children}) =>{
 
     //--------------------------------------------------------------------------- reset password
     let resetPassword = async(e)=>{
+        setSpinner(true)
         e.preventDefault()
         let response = await fetch(`http://127.0.0.1:8000/auth/users/reset_password/`,{
             method:"POST",
@@ -163,11 +180,16 @@ export const AuthProvider = ({children}) =>{
         })
         
         console.log(response.status)
+        setResetReqStatus(response.status)
+        if (response.status){
+            setSpinner(false)
+        }
     }
 
 
     //--------------------------------------------------------------------------- reset password confirm
     let resetPasswordConfirm = async(e,uid, token)=>{
+        setSpinner(true)
         e.preventDefault()
         let response = await fetch(`http://127.0.0.1:8000/auth/users/reset_password_confirm/`, {
             method:"POST",
@@ -181,6 +203,10 @@ export const AuthProvider = ({children}) =>{
             })
         })
         console.log(response.status)
+        setResetPasswordStatus(response.status)
+        if (response.status){
+            setSpinner(false)
+        }
         
     }
 
@@ -195,6 +221,7 @@ export const AuthProvider = ({children}) =>{
         signupStatus:signupStatus,
 
         activateAccount:activateAccount,
+        activateReqStatus:activateReqStatus,
 
         logout:logout,
 
@@ -202,7 +229,11 @@ export const AuthProvider = ({children}) =>{
         user:user,
 
         resetPassword:resetPassword,
+        resetReqStatus:resetReqStatus,
         resetPasswordConfirm:resetPasswordConfirm,
+        resetPasswordStatus:resetPasswordStatus,
+
+        spinner:spinner,
     }
 
     return(
