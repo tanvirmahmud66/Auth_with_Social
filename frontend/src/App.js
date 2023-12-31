@@ -21,8 +21,8 @@ function App() {
             <Route path="/login" element={!user?<Login/>:<Navigate to='/'/>}/>
             <Route path="/signup" element={!user?<Signup/>:<Navigate to='/'/>}/>
             <Route path="/reset_password" element={<ResetPassword/>}/>
-            <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm/>}/>
-            <Route path="/activate/:uid/:token" element={<ActivateAccount/>}/>
+            <Route path="//password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm/>}/>
+            <Route path="//activate/:uid/:token" element={<ActivateAccount/>}/>
           </Routes>
       </MainLayout>
     </Router>
