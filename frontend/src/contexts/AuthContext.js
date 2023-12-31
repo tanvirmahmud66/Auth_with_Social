@@ -70,7 +70,7 @@ export const AuthProvider = ({children}) =>{
             method:"GET",
             headers:{
                 'Content-Type':'application/json',
-                'Authorization': `JWT ${authTokens.access}`,
+                'Authorization': `JWT ${authTokens?.access}`,
                 'Accept': 'application/json',
             }
         })
@@ -124,6 +124,24 @@ export const AuthProvider = ({children}) =>{
         }
     }
 
+    // -------------------------------------------------------------------------- activate account
+    let activateAccount = async(uid, token)=>{
+        let response = await fetch(`http://127.0.0.1:8000/auth/users/activation/`, {
+            method:"POST",
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                'uid':uid,
+                'token': token,
+            })
+        })
+
+        console.log(response.status)
+    }
+
+
+
     // -------------------------------------------------------------------------- user logout
     const logout = ()=>{
         setAuthTokens(null)
@@ -175,6 +193,8 @@ export const AuthProvider = ({children}) =>{
 
         userSignup:userSignup,
         signupStatus:signupStatus,
+
+        activateAccount:activateAccount,
 
         logout:logout,
 
