@@ -210,6 +210,47 @@ export const AuthProvider = ({children}) =>{
         
     }
 
+    // ------------------------------------------------------------------------- continue with google
+    let continueWithGoogle = async() =>{
+        let response = await fetch(`http://127.0.0.1:8000/auth/o/google-oauth2/?redirect_uri=http://127.0.0.1:8000`,{
+            method:"GET",
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        // console.log(response.data.url)
+        let data = await response.json()
+        window.location.replace(data.authorization_url)
+    }
+
+    // -------------------------------------------------------------------------- google authentication
+    let googleAuthentication = async(state,code)=>{
+        if(state && code && !localStorage.getItem('access')){
+            const details = {
+                'state': state,
+                'code': code
+            };
+    
+            const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+    
+            let response = await fetch(`http://127.0.0.1:8000/auth/o/google-oauth2/?${formBody}`,{
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/x-www.form-urlencoded',
+                },
+            })
+            let data = await response.json()
+            console.log(response)
+            console.log(data)
+            if (response.status===201){
+                setAuthTokens(data)
+                setUser(jwtDecode(data.access))
+                localStorage.setItem('authTokens', JSON.stringify(data))
+            }
+        }
+        
+    }
+
 
 
     // ------------------------------------ context data ------------------------
@@ -233,6 +274,8 @@ export const AuthProvider = ({children}) =>{
         resetPasswordConfirm:resetPasswordConfirm,
         resetPasswordStatus:resetPasswordStatus,
 
+        continueWithGoogle:continueWithGoogle,
+        googleAuthentication:googleAuthentication,
         spinner:spinner,
     }
 

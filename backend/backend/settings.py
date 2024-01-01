@@ -187,6 +187,8 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL' : 'password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL':'/username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL':'activate/{uid}/{token}',
+    'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS':'http://127.0.0.1:8000',
     'SERIALIZERS': {
         'user_create': 'accounts.serializers.UserCreateSerializer',
         'user': 'djoser.serializers.UserSerializer',
@@ -209,4 +211,3 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
 # corsheader
 CORS_ALLOW_ALL_ORIGINS = True
-

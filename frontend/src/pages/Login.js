@@ -8,7 +8,7 @@ import AuthContext from '../contexts/AuthContext'
 const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false)
-  const {userLogin, loginStatus, spinner} = useContext(AuthContext)
+  const {userLogin, loginStatus, continueWithGoogle,spinner} = useContext(AuthContext)
 
   return (
     <div className='h-[80vh] flex justify-center items-center'>
@@ -91,7 +91,7 @@ const Login = () => {
             <div className='border-b border-gray-400 inline-block w-full'></div>
           </div>
           <div className='mt-3 flex justify-center items-center'>
-            <div className='hover:scale-110 hover:transition-all cursor-pointer'>
+            <div onClick={continueWithGoogle} className='hover:scale-110 hover:transition-all cursor-pointer'>
               <img src={GoogleImg} width={40} alt='google'/>
             </div>
             <div className='mx-4 hover:scale-110 hover:transition-all cursor-pointer'>
