@@ -171,7 +171,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'tanvirmahmudfahim1313@gmail.com' 
-EMAIL_HOST_PASSWORD = 'grfbijfgpnutwtdv' 
+EMAIL_HOST_PASSWORD = 'password' 
 DEFAULT_FROM_EMAIL = 'tanvirmahmudfahim1313@gmail.com'  
 
 # djoser
@@ -188,7 +188,7 @@ DJOSER = {
     'USERNAME_RESET_CONFIRM_URL':'/username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL':'activate/{uid}/{token}',
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS':'http://127.0.0.1:8000',
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS':['http://127.0.0.1:8000/google','http://127.0.0.1:8000/facebook'],
     'SERIALIZERS': {
         'user_create': 'accounts.serializers.UserCreateSerializer',
         'user': 'djoser.serializers.UserSerializer',
@@ -199,14 +199,21 @@ DJOSER = {
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
-    # 'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '427217770365-msvjb4gapusoj94806unq0qtr6788kg8.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '[your google email key]'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '[your google email secret]'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
+
+SOCIAL_AUTH_FACEBOOK_KEY = '[your facebook key]'
+SOCIAL_AUTH_FACEBOOK_SECRET = '[your facebook secret]'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'email, first_name, last_name'
+}
 
 
 # corsheader

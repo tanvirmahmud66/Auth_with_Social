@@ -37,7 +37,7 @@ export const AuthProvider = ({children}) =>{
     let userLogin = async(e)=>{
         setSpinner(true)
         e.preventDefault()
-        let response = await fetch(`http://127.0.0.1:8000/auth/jwt/create/`,{
+        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/jwt/create/`,{
             method:"POST",
             headers:{
                 'Content-Type':'application/json',
@@ -74,7 +74,7 @@ export const AuthProvider = ({children}) =>{
 
     // load user --------------------------------------------------------------- load user
     let loadUser = async()=>{
-        let response = await fetch(`http://127.0.0.1:8000/auth/users/me/`,{
+        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/me/`,{
             method:"GET",
             headers:{
                 'Content-Type':'application/json',
@@ -96,7 +96,7 @@ export const AuthProvider = ({children}) =>{
     let userSignup = async(e)=>{
         setSpinner(true)
         e.preventDefault()
-        let response = await fetch(`http://127.0.0.1:8000/auth/users/`,{
+        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/`,{
             method:"POST",
             headers:{
                 'Content-Type':'application/json',
@@ -138,7 +138,7 @@ export const AuthProvider = ({children}) =>{
     // -------------------------------------------------------------------------- activate account
     let activateAccount = async(uid, token)=>{
         setSpinner(true)
-        let response = await fetch(`http://127.0.0.1:8000/auth/users/activation/`, {
+        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/activation/`, {
             method:"POST",
             headers:{
                 'Content-Type':'application/json'
@@ -169,7 +169,7 @@ export const AuthProvider = ({children}) =>{
     let resetPassword = async(e)=>{
         setSpinner(true)
         e.preventDefault()
-        let response = await fetch(`http://127.0.0.1:8000/auth/users/reset_password/`,{
+        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/reset_password/`,{
             method:"POST",
             headers:{
                 'Content-Type':'application/json'
@@ -191,7 +191,7 @@ export const AuthProvider = ({children}) =>{
     let resetPasswordConfirm = async(e,uid, token)=>{
         setSpinner(true)
         e.preventDefault()
-        let response = await fetch(`http://127.0.0.1:8000/auth/users/reset_password_confirm/`, {
+        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/reset_password_confirm/`, {
             method:"POST",
             headers:{
                 'Content-Type':'application/json',
@@ -212,7 +212,7 @@ export const AuthProvider = ({children}) =>{
 
     // ------------------------------------------------------------------------- continue with google
     let continueWithGoogle = async() =>{
-        let response = await fetch(`http://127.0.0.1:8000/auth/o/google-oauth2/?redirect_uri=http://127.0.0.1:8000`,{
+        let response = await fetch(`http://127.0.0.1:8000/auth/o/google-oauth2/?redirect_uri=http://127.0.0.1:8000/google`,{
             method:"GET",
             headers:{
                 'Content-Type':'application/json'
@@ -223,7 +223,23 @@ export const AuthProvider = ({children}) =>{
         window.location.replace(data.authorization_url)
     }
 
-    // -------------------------------------------------------------------------- google authentication
+    // ------------------------------------------------------------------------- continue with facebook
+    let continueWithFacebook = async() =>{
+        let response = await fetch(`http://127.0.0.1:8000/auth/o/facebook/?redirect_uri=http://127.0.0.1:8000/facebook`,{
+            method:"GET",
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        // console.log(response.data.url)
+        let data = await response.json()
+        window.location.replace(data.authorization_url)
+    }
+
+
+
+
+    // ========================================================================== google authentication
     let googleAuthentication = async(state,code)=>{
         if(state && code && !localStorage.getItem('access')){
             const details = {
@@ -236,7 +252,36 @@ export const AuthProvider = ({children}) =>{
             let response = await fetch(`http://127.0.0.1:8000/auth/o/google-oauth2/?${formBody}`,{
                 method:"POST",
                 headers:{
-                    'Content-Type':'application/x-www.form-urlencoded',
+                    'Content-Type':'application/x-www-form-urlencoded',
+                },
+            })
+            let data = await response.json()
+            console.log(response)
+            console.log(data)
+            if (response.status===201){
+                setAuthTokens(data)
+                setUser(jwtDecode(data.access))
+                localStorage.setItem('authTokens', JSON.stringify(data))
+            }
+        }
+        
+    }
+
+
+    // =========================================================================== Facebook authentication
+    let facebookAuthentication = async(state,code)=>{
+        if(state && code && !localStorage.getItem('access')){
+            const details = {
+                'state': state,
+                'code': code
+            };
+    
+            const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+    
+            let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/o/facebook/?${formBody}`,{
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/x-www-form-urlencoded',
                 },
             })
             let data = await response.json()
@@ -253,7 +298,7 @@ export const AuthProvider = ({children}) =>{
 
 
 
-    // ------------------------------------ context data ------------------------
+    // ------------------------------------ context data ------------------------ context data
     let contextData = {
         userLogin:userLogin,
         loginStatus:loginStatus,
@@ -276,6 +321,11 @@ export const AuthProvider = ({children}) =>{
 
         continueWithGoogle:continueWithGoogle,
         googleAuthentication:googleAuthentication,
+
+        continueWithFacebook:continueWithFacebook,
+        facebookAuthentication:facebookAuthentication,
+
+
         spinner:spinner,
     }
 

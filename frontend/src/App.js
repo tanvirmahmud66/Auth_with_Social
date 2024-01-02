@@ -8,6 +8,8 @@ import AuthContext from "./contexts/AuthContext";
 import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordConfirm from "./pages/ResetPasswordConfirm";
 import ActivateAccount from "./pages/ActivateAccount";
+import Facebook from "./pages/Facebook";
+import Google from "./pages/Google";
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
             <Route path="/" element={user?<Home/>:<Navigate to='/login'/>}/>
             <Route path="/login" element={!user?<Login/>:<Navigate to='/'/>}/>
             <Route path="/signup" element={!user?<Signup/>:<Navigate to='/'/>}/>
+            <Route path="/facebook" element={<Facebook/>}/>
+            <Route path="/google" element={<Google/>}/>
             <Route path="/reset_password" element={<ResetPassword/>}/>
             <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm/>}/>
             <Route path="/activate/:uid/:token" element={<ActivateAccount/>}/>

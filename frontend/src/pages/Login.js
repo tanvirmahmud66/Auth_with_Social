@@ -8,7 +8,7 @@ import AuthContext from '../contexts/AuthContext'
 const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false)
-  const {userLogin, loginStatus, continueWithGoogle,spinner} = useContext(AuthContext)
+  const {userLogin, loginStatus, continueWithGoogle,continueWithFacebook,spinner} = useContext(AuthContext)
 
   return (
     <div className='h-[80vh] flex justify-center items-center'>
@@ -94,12 +94,12 @@ const Login = () => {
             <div onClick={continueWithGoogle} className='hover:scale-110 hover:transition-all cursor-pointer'>
               <img src={GoogleImg} width={40} alt='google'/>
             </div>
-            <div className='mx-4 hover:scale-110 hover:transition-all cursor-pointer'>
+            <div onClick={continueWithFacebook} className='mx-4 hover:scale-110 hover:transition-all cursor-pointer'>
               <img src={FacebookImg} width={40} alt='google'/>
             </div>
-            <div className='hover:scale-110 hover:transition-all cursor-pointer'>
+            {/* <div className='hover:scale-110 hover:transition-all cursor-pointer'>
               <img src={GithubImg} width={40} alt='google'/>
-            </div>
+            </div> */}
           </div>
         </div>
 
