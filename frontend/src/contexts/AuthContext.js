@@ -8,7 +8,7 @@ export default AuthContext;
 
 export const AuthProvider = ({children}) =>{
 
-    const baseUrl = 'tanvir62.pythonanywhere.com'
+    const baseUrl = 'https://tanvir62.pythonanywhere.com'
 
     let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     // let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
