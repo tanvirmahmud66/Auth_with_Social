@@ -203,13 +203,13 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend'
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '[your google email key]'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '[your google email secret]'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '427217770365-2vcgqf6ug343j0epbjp4cina17531j5m.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
-SOCIAL_AUTH_FACEBOOK_KEY = '[your facebook key]'
-SOCIAL_AUTH_FACEBOOK_SECRET = '[your facebook secret]'
+SOCIAL_AUTH_FACEBOOK_KEY = '1074275843760062'
+SOCIAL_AUTH_FACEBOOK_SECRET = '986585790d6dda42ef8a95e3a1fa8ec3'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'email, first_name, last_name'

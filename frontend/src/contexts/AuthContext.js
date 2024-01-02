@@ -8,6 +8,8 @@ export default AuthContext;
 
 export const AuthProvider = ({children}) =>{
 
+    const baseUrl = 'http://127.0.0.1:8000'
+
     let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     // let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(null)
@@ -37,7 +39,7 @@ export const AuthProvider = ({children}) =>{
     let userLogin = async(e)=>{
         setSpinner(true)
         e.preventDefault()
-        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/jwt/create/`,{
+        let response = await fetch(`${baseUrl}/auth/jwt/create/`,{
             method:"POST",
             headers:{
                 'Content-Type':'application/json',
@@ -74,7 +76,7 @@ export const AuthProvider = ({children}) =>{
 
     // load user --------------------------------------------------------------- load user
     let loadUser = async()=>{
-        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/me/`,{
+        let response = await fetch(`${baseUrl}/auth/users/me/`,{
             method:"GET",
             headers:{
                 'Content-Type':'application/json',
@@ -96,7 +98,7 @@ export const AuthProvider = ({children}) =>{
     let userSignup = async(e)=>{
         setSpinner(true)
         e.preventDefault()
-        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/`,{
+        let response = await fetch(`${baseUrl}/auth/users/`,{
             method:"POST",
             headers:{
                 'Content-Type':'application/json',
@@ -138,7 +140,7 @@ export const AuthProvider = ({children}) =>{
     // -------------------------------------------------------------------------- activate account
     let activateAccount = async(uid, token)=>{
         setSpinner(true)
-        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/activation/`, {
+        let response = await fetch(`${baseUrl}/auth/users/activation/`, {
             method:"POST",
             headers:{
                 'Content-Type':'application/json'
@@ -169,7 +171,7 @@ export const AuthProvider = ({children}) =>{
     let resetPassword = async(e)=>{
         setSpinner(true)
         e.preventDefault()
-        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/reset_password/`,{
+        let response = await fetch(`${baseUrl}/auth/users/reset_password/`,{
             method:"POST",
             headers:{
                 'Content-Type':'application/json'
@@ -191,7 +193,7 @@ export const AuthProvider = ({children}) =>{
     let resetPasswordConfirm = async(e,uid, token)=>{
         setSpinner(true)
         e.preventDefault()
-        let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/users/reset_password_confirm/`, {
+        let response = await fetch(`${baseUrl}/auth/users/reset_password_confirm/`, {
             method:"POST",
             headers:{
                 'Content-Type':'application/json',
@@ -212,7 +214,7 @@ export const AuthProvider = ({children}) =>{
 
     // ------------------------------------------------------------------------- continue with google
     let continueWithGoogle = async() =>{
-        let response = await fetch(`http://127.0.0.1:8000/auth/o/google-oauth2/?redirect_uri=http://127.0.0.1:8000/google`,{
+        let response = await fetch(`${baseUrl}/auth/o/google-oauth2/?redirect_uri=${baseUrl}/google`,{
             method:"GET",
             headers:{
                 'Content-Type':'application/json'
@@ -225,7 +227,7 @@ export const AuthProvider = ({children}) =>{
 
     // ------------------------------------------------------------------------- continue with facebook
     let continueWithFacebook = async() =>{
-        let response = await fetch(`http://127.0.0.1:8000/auth/o/facebook/?redirect_uri=http://127.0.0.1:8000/facebook`,{
+        let response = await fetch(`${baseUrl}/auth/o/facebook/?redirect_uri=${baseUrl}/facebook`,{
             method:"GET",
             headers:{
                 'Content-Type':'application/json'
@@ -249,7 +251,7 @@ export const AuthProvider = ({children}) =>{
     
             const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
     
-            let response = await fetch(`http://127.0.0.1:8000/auth/o/google-oauth2/?${formBody}`,{
+            let response = await fetch(`${baseUrl}/auth/o/google-oauth2/?${formBody}`,{
                 method:"POST",
                 headers:{
                     'Content-Type':'application/x-www-form-urlencoded',
@@ -278,7 +280,7 @@ export const AuthProvider = ({children}) =>{
     
             const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
     
-            let response = await fetch(`${process.env.REACT_APP_API_URL}/auth/o/facebook/?${formBody}`,{
+            let response = await fetch(`${baseUrl}/auth/o/facebook/?${formBody}`,{
                 method:"POST",
                 headers:{
                     'Content-Type':'application/x-www-form-urlencoded',

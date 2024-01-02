@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import AuthContext from '../contexts/AuthContext'
 import Home from './Home'
+import Login from './Login'
 
 const Facebook = ({children}) => {
   let location = useLocation()
@@ -18,8 +19,12 @@ const Facebook = ({children}) => {
     }
   },[location])
 
+  const {user} = useContext(AuthContext)
+
   return (
-    <Home/> 
+    <>
+    {user ? <Home/>:<Login/>}
+    </>
   )
 }
 

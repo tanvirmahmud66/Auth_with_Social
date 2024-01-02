@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import AuthContext from '../contexts/AuthContext'
 import Home from './Home'
+import Login from './Login'
 
 const Google = ({children}) => {
   let location = useLocation()
@@ -18,8 +19,12 @@ const Google = ({children}) => {
     }
   },[location])
 
+  const {user} = useContext(AuthContext)
+
   return (
-    <Home/> 
+    <>
+      {user ? <Home/>:<Login/>}
+    </> 
   )
 }
 

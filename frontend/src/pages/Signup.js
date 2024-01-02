@@ -10,7 +10,7 @@ import AuthContext from '../contexts/AuthContext'
 const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false)
-  const {userSignup, signupStatus,continueWithGoogle,spinner} = useContext(AuthContext)
+  const {userSignup, signupStatus,continueWithGoogle, continueWithFacebook,spinner} = useContext(AuthContext)
 
 
   return (
@@ -187,7 +187,7 @@ const Signup = () => {
             <div onClick={continueWithGoogle} className='hover:scale-110 hover:transition-all cursor-pointer'>
               <img src={GoogleImg} width={40} alt='google'/>
             </div>
-            <div className='ms-4 hover:scale-110 hover:transition-all cursor-pointer'>
+            <div onClick={continueWithFacebook} className='ms-4 hover:scale-110 hover:transition-all cursor-pointer'>
               <img src={FacebookImg} width={40} alt='google'/>
             </div>
             {/* <div className='hover:scale-110 hover:transition-all cursor-pointer'>
